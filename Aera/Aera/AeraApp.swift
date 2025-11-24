@@ -9,9 +9,19 @@ import SwiftUI
 
 @main
 struct AeraApp: App {
+    @State private var isSplashFinished = false
+    
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            ZStack {
+                if isSplashFinished {
+                    LoginView()
+                        .transition(.opacity)
+                } else {
+                    SplashView(isFinished: $isSplashFinished)
+                        .transition(.opacity)
+                }
+            }
         }
     }
 }
