@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct SignupData: Codable {
-    let id: String
+    let name: String
+    let email: String
     let password: String
-    let passwordCheck: String
 }
 
 struct LoginData: Codable {

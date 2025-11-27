@@ -77,7 +77,10 @@ struct SignupView: View {
     
     private var ButtonGroup: some View {
         VStack(spacing: 24){
-            Button(action: {}, label: {
+            Button(action: {
+                viewModel.signup()
+                print("회원가입")
+            }, label: {
                 Text("회원가입")
                     .font(.SMedium)
                     .foregroundStyle(.aricticLight)
