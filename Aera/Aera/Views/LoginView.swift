@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var username: String = ""
-    @State var password: String = ""
-    @State var shownPassword: Bool = false
-    
+    @StateObject var viewModel = UserViewModel()
     
     var body: some View {
         ZStack {
@@ -42,18 +39,18 @@ struct LoginView: View {
     private var InputGroup: some View {
         VStack(spacing: 16){
             InputView{
-                TextField("아이디를 입력하세요", text: $username)
+                TextField("아이디를 입력하세요", text: $viewModel.id)
             }
             InputView{
                 HStack{
-                    if shownPassword {
-                        SecureField("비밀번호를 입력하세요", text: $password)
-                        Button(action: {shownPassword.toggle()}, label: {
+                    if !viewModel.showPassword {
+                        SecureField("비밀번호를 입력하세요", text: $viewModel.password)
+                        Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOff)
                         })
                     } else {
-                        TextField("비밀번호를 입력하세요", text: $password)
-                        Button(action: {shownPassword.toggle()}, label: {
+                        TextField("비밀번호를 입력하세요", text: $viewModel.password)
+                        Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOn)
                         })
                     }

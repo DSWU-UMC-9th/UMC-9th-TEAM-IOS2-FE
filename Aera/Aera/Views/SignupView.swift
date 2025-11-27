@@ -8,12 +8,7 @@
 import SwiftUI
 
 struct SignupView: View {
-    @State var username: String = ""
-    @State var password: String = ""
-    @State var rePassword: String = ""
-    @State var shownPassword: Bool = false
-    @State var shownRePassword: Bool = false
-    
+    @StateObject var viewModel = UserViewModel()
     
     var body: some View {
         ZStack {
@@ -44,18 +39,18 @@ struct SignupView: View {
     private var InputGroup: some View {
         VStack(spacing: 16){
             InputView{
-                TextField("아이디를 입력하세요", text: $username)
+                TextField("아이디를 입력하세요", text: $viewModel.id)
             }
             InputView{
                 HStack{
-                    if shownPassword {
-                        SecureField("비밀번호를 입력하세요", text: $password)
-                        Button(action: {shownPassword.toggle()}, label: {
+                    if !viewModel.showPassword {
+                        SecureField("비밀번호를 입력하세요", text: $viewModel.password)
+                        Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOff)
                         })
                     } else {
-                        TextField("비밀번호를 입력하세요", text: $password)
-                        Button(action: {shownPassword.toggle()}, label: {
+                        TextField("비밀번호를 입력하세요", text: $viewModel.password)
+                        Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOn)
                         })
                     }
@@ -63,14 +58,14 @@ struct SignupView: View {
             }
             InputView{
                 HStack{
-                    if shownRePassword {
-                        SecureField("비밀번호를 한 번 더 입력하세요", text: $rePassword)
-                        Button(action: {shownRePassword.toggle()}, label: {
+                    if !viewModel.showPasswordCheck {
+                        SecureField("비밀번호를 한 번 더 입력하세요", text: $viewModel.passwordCheck)
+                        Button(action: {viewModel.showPasswordCheck.toggle()}, label: {
                             Image(.iconEyeOff)
                         })
                     } else {
-                        TextField("비밀번호를 한 번 더 입력하세요", text: $rePassword)
-                        Button(action: {shownRePassword.toggle()}, label: {
+                        TextField("비밀번호를 한 번 더 입력하세요", text: $viewModel.passwordCheck)
+                        Button(action: {viewModel.showPasswordCheck.toggle()}, label: {
                             Image(.iconEyeOn)
                         })
                     }
