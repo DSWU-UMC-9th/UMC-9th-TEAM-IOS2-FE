@@ -17,3 +17,7 @@ struct LoginData: Codable {
     let email: String
     let password: String
 }
+
+struct TokenInfo: Codable {
+    let accessToken: String
+}

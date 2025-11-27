@@ -10,6 +10,8 @@ import Combine
 import Moya
 
 class UserViewModel: ObservableObject {
+    let keychain = KeychainManager.shared
+    let tokenInfo = TokenInfo(accessToken: "")
 
     @Published var id: String = ""
     @Published var password: String = ""
@@ -56,6 +58,8 @@ class UserViewModel: ObservableObject {
                 if let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: response.data) {
                     print("성공: \(decodedResponse.message)")
                     self.isSuccess = true
+                    let tokenInfo = TokenInfo(accessToken: decodedResponse.result!.accessToken)
+                    self.keychain.saveToken(tokenInfo)
                 }
             case .failure(let error):
                 if let response = error.response {
