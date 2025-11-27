@@ -48,4 +48,29 @@ class UserViewModel: ObservableObject {
             }
         }
     }
+    
+    func login() {
+        provider.request(.login(loginData: LoginData(email: id, password: password))) {
+            result in switch result {
+            case .success(let response):
+                if let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: response.data) {
+                    print("성공: \(decodedResponse.message)")
+                    self.isSuccess = true
+                }
+            case .failure(let error):
+                if let response = error.response {
+                    do {
+                        let decodedResponse = try JSONDecoder().decode(LoginResponse.self, from: response.data)
+                        print(decodedResponse)
+                        print("실패 : \(error.localizedDescription)")
+
+                    } catch {
+                        print("디코딩 실패 : \(error.localizedDescription)")
+                    }
+                } else {
+                    print("네트워크 오류: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }

@@ -14,6 +14,6 @@ struct SignupData: Codable {
 }
 
 struct LoginData: Codable {
-    let id: String
+    let email: String
     let password: String
 }

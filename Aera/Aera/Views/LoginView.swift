@@ -62,7 +62,9 @@ struct LoginView: View {
     
     private var ButtonGroup: some View {
         VStack(spacing: 24){
-            Button(action: {}, label: {
+            Button(action: {
+                viewModel.login()
+            }, label: {
                 Text("로그인")
                     .font(.SMedium)
                     .foregroundStyle(.aricticLight)
