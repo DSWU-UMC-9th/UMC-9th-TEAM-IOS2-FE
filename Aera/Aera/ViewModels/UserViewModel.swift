@@ -21,7 +21,8 @@ class UserViewModel: ObservableObject {
     @Published var showPasswordCheck: Bool = false
 
     @Published var errorMessage: String?
-    @Published var isSuccess: Bool = false
+    @Published var isSignup: Bool = false
+    @Published var isLogin: Bool = false
     
     var signupData: SignupData?
     private let provider = APIManager.shared.createProvider(for: UserRouter.self)
@@ -32,7 +33,7 @@ class UserViewModel: ObservableObject {
             case .success(let response):
                 if let decodedResponse = try? JSONDecoder().decode(SignupResponse.self, from: response.data) {
                     print("성공: \(decodedResponse.message)")
-                    self.isSuccess = true
+                    self.isSignup = true
                 }
             case .failure(let error):
                 if let response = error.response {
@@ -57,7 +58,7 @@ class UserViewModel: ObservableObject {
             case .success(let response):
                 if let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: response.data) {
                     print("성공: \(decodedResponse.message)")
-                    self.isSuccess = true
+                    self.isLogin = true
                     let tokenInfo = TokenInfo(accessToken: decodedResponse.result!.accessToken)
                     self.keychain.saveToken(tokenInfo)
                 }
