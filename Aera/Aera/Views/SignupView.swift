@@ -11,20 +11,26 @@ struct SignupView: View {
     @StateObject var viewModel = UserViewModel()
     
     var body: some View {
-        ZStack {
-            Color.aricticLight
-            
-            VStack{
-                Image(.logoDark)
-                    .padding(.bottom, 44)
-                InfoGroup
-                    .padding(.bottom, 24)
-                InputGroup
-                    .padding(.bottom, 32)
-                ButtonGroup
+        NavigationStack{
+            ZStack {
+                Color.aricticLight
+                
+                VStack{
+                    Image(.logoDark)
+                        .padding(.bottom, 44)
+                    InfoGroup
+                        .padding(.bottom, 24)
+                    InputGroup
+                        .padding(.bottom, 32)
+                    ButtonGroup
+                }
             }
+            .ignoresSafeArea()
+            .navigationBarBackButtonHidden()
         }
-        .ignoresSafeArea()
+        .fullScreenCover(isPresented: $viewModel.isSignup) {
+            LoginView()
+        }
     }
     
     private var InfoGroup: some View {
@@ -108,7 +114,7 @@ struct SignupView: View {
                     .frame(maxWidth: .infinity)
             }
             
-            Button(action: {}, label: {
+            NavigationLink(destination: LoginView()) {
                 Text("로그인 하러 가기")
                     .font(.SMedium)
                     .foregroundStyle(.midnightDark)
@@ -118,7 +124,8 @@ struct SignupView: View {
                         RoundedRectangle(cornerRadius: 4)
                             .stroke(Color(.midnightDark), lineWidth: 1)
                     )
-            })
+
+            }
         }
         .padding(.horizontal, 24)
     }
