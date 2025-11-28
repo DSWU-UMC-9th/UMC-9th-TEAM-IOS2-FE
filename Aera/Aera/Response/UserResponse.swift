@@ -26,6 +26,6 @@ struct LoginResponse: Decodable {
 
 struct LoginResult: Decodable {
     let memberId: Int
-    let name: String
+    let loginId: String
     let accessToken: String
 }

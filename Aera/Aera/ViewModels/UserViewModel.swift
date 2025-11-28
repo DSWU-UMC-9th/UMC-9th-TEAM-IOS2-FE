@@ -27,7 +27,7 @@ class UserViewModel: ObservableObject {
     private let provider = APIManager.shared.createProvider(for: UserRouter.self)
     
     func signup() {
-        provider.request(.signup(signupData: SignupData(name: id, email: password, password: passwordCheck))) {
+        provider.request(.signup(signupData: SignupData(loginId: id, password: password, passwordCheck: passwordCheck))) {
             result in switch result {
             case .success(let response):
                 if let decodedResponse = try? JSONDecoder().decode(SignupResponse.self, from: response.data) {
@@ -52,7 +52,7 @@ class UserViewModel: ObservableObject {
     }
     
     func login() {
-        provider.request(.login(loginData: LoginData(email: id, password: password))) {
+        provider.request(.login(loginData: LoginData(loginId: id, password: password))) {
             result in switch result {
             case .success(let response):
                 if let decodedResponse = try? JSONDecoder().decode(LoginResponse.self, from: response.data) {
