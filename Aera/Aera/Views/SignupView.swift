@@ -43,7 +43,7 @@ struct SignupView: View {
     }
     
     private var InputGroup: some View {
-        VStack(spacing: 16){
+        VStack(alignment: .leading, spacing: 16){
             InputView{
                 TextField("아이디를 입력하세요", text: $viewModel.id)
                     .textInputAutocapitalization(.never)
@@ -65,6 +65,14 @@ struct SignupView: View {
                     }
                 }
             }
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(
+                        (viewModel.errorMessage != nil) ? Color.red : .clear,
+                        lineWidth: 1
+                    )
+            )
+            
             InputView{
                 HStack{
                     if !viewModel.showPasswordCheck {
@@ -82,6 +90,16 @@ struct SignupView: View {
                     }
                 }
             }
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(
+                        (viewModel.errorMessage != nil) ? Color.red : .clear,
+                        lineWidth: 1
+                    )
+            )
+            
+            Text(viewModel.errorMessage ?? "")
+                .foregroundStyle(.red)
         }
         .padding(.horizontal, 24)
     }

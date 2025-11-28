@@ -28,7 +28,7 @@ class UserViewModel: ObservableObject {
     private let provider = APIManager.shared.createProvider(for: UserRouter.self)
     
     func signup() {
-        provider.request(.signup(signupData: SignupData(loginId: id, password: password, passwordCheck: passwordCheck))) {
+        provider.request(.signup(signupData: SignupData(loginId: id, password: password, passwordCheck: passwordCheck))) { [self]
             result in switch result {
             case .success(let response):
                 if let decodedResponse = try? JSONDecoder().decode(SignupResponse.self, from: response.data) {
@@ -44,6 +44,7 @@ class UserViewModel: ObservableObject {
 
                     } catch {
                         print("디코딩 실패 : \(error.localizedDescription)")
+                        self.errorMessage = "비밀번호가 일치하지 않습니다."
                     }
                 } else {
                     print("네트워크 오류: \(error.localizedDescription)")
@@ -71,6 +72,7 @@ class UserViewModel: ObservableObject {
 
                     } catch {
                         print("디코딩 실패 : \(error.localizedDescription)")
+                        self.errorMessage = "사용자가 존재하지 않거나 비밀번호가 일치하지 않습니다."
                     }
                 } else {
                     print("네트워크 오류: \(error.localizedDescription)")

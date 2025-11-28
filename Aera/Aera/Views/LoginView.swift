@@ -43,11 +43,12 @@ struct LoginView: View {
     }
     
     private var InputGroup: some View {
-        VStack(spacing: 16){
+        VStack(alignment: .leading, spacing: 16){
             InputView{
                 TextField("아이디를 입력하세요", text: $viewModel.id)
                     .textInputAutocapitalization(.never)
             }
+            
             InputView{
                 HStack{
                     if !viewModel.showPassword {
@@ -65,7 +66,11 @@ struct LoginView: View {
                     }
                 }
             }
+            
+            Text(viewModel.errorMessage ?? "")
+                .foregroundStyle(.red)
         }
+        
         .padding(.horizontal, 24)
     }
     
