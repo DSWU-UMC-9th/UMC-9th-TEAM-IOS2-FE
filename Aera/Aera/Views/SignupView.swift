@@ -46,16 +46,19 @@ struct SignupView: View {
         VStack(spacing: 16){
             InputView{
                 TextField("아이디를 입력하세요", text: $viewModel.id)
+                    .textInputAutocapitalization(.never)
             }
             InputView{
                 HStack{
                     if !viewModel.showPassword {
                         SecureField("비밀번호를 입력하세요", text: $viewModel.password)
+                            .textInputAutocapitalization(.never)
                         Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOff)
                         })
                     } else {
                         TextField("비밀번호를 입력하세요", text: $viewModel.password)
+                            .textInputAutocapitalization(.never)
                         Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOn)
                         })
@@ -66,11 +69,13 @@ struct SignupView: View {
                 HStack{
                     if !viewModel.showPasswordCheck {
                         SecureField("비밀번호를 한 번 더 입력하세요", text: $viewModel.passwordCheck)
+                            .textInputAutocapitalization(.never)
                         Button(action: {viewModel.showPasswordCheck.toggle()}, label: {
                             Image(.iconEyeOff)
                         })
                     } else {
                         TextField("비밀번호를 한 번 더 입력하세요", text: $viewModel.passwordCheck)
+                            .textInputAutocapitalization(.never)
                         Button(action: {viewModel.showPasswordCheck.toggle()}, label: {
                             Image(.iconEyeOn)
                         })
