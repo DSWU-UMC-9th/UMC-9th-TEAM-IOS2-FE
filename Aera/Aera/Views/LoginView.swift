@@ -43,26 +43,34 @@ struct LoginView: View {
     }
     
     private var InputGroup: some View {
-        VStack(spacing: 16){
+        VStack(alignment: .leading, spacing: 16){
             InputView{
                 TextField("아이디를 입력하세요", text: $viewModel.id)
+                    .textInputAutocapitalization(.never)
             }
+            
             InputView{
                 HStack{
                     if !viewModel.showPassword {
                         SecureField("비밀번호를 입력하세요", text: $viewModel.password)
+                            .textInputAutocapitalization(.never)
                         Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOff)
                         })
                     } else {
                         TextField("비밀번호를 입력하세요", text: $viewModel.password)
+                            .textInputAutocapitalization(.never)
                         Button(action: {viewModel.showPassword.toggle()}, label: {
                             Image(.iconEyeOn)
                         })
                     }
                 }
             }
+            
+            Text(viewModel.errorMessage ?? "")
+                .foregroundStyle(.red)
         }
+        
         .padding(.horizontal, 24)
     }
     
