@@ -43,12 +43,13 @@ struct MypageView: View {
     }
     
     var UserNameCard: some View {
-        HStack{
-            VStack(alignment: .leading, spacing: 10){
+        HStack {
+            VStack(alignment: .leading, spacing: 10) {
                 Text("안녕하세요")
                     .font(.SSemiBold)
                     .foregroundStyle(.aricticLightHover)
-                Text("\(vm.currentUser.name) 님")
+
+                Text("\(vm.myInfo?.name ?? "") 님")
                     .font(.LSemiBold)
                     .foregroundStyle(.aricticLight)
             }
@@ -57,8 +58,6 @@ struct MypageView: View {
         .padding(16)
         .background(.midnightDark)
         .cornerRadius(4)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        
     }
     
     var SortSection: some View {
@@ -107,14 +106,11 @@ struct MypageView: View {
     
     var reviewListSection: some View {
         VStack(spacing: 16) {
-            ForEach(vm.myReviews) { review in
-                if let product = vm.product(for: review) {
-                    ReviewCard(review: review, product: product)
-                }
+            ForEach(vm.myReviews, id: \.reviewId) { review in
+                ReviewCard(review: review)
             }
         }
     }
-    
     var sortDropDown: some View {
         VStack(spacing: 0) {
             Button("최신 순") {
@@ -140,19 +136,22 @@ struct MypageView: View {
 }
 
 
-struct ReviewCard:View {
-    let review: Review
-    let product: Product
-    
+struct ReviewCard: View {
+    let review: MyPageReview
+
     var body: some View {
-        VStack(alignment: .leading){
-            HStack{
-                Text("\(product.name)")
+        VStack(alignment: .leading) {
+            HStack {
+                Text(review.perfumeName)
                     .font(.LSemiBold)
                     .foregroundStyle(.midnightDark)
+
                 Spacer()
-                Button(action: {}, label: {
-                    HStack{
+
+                Button {
+                    // 향수 상세 페이지로 이동
+                } label: {
+                    HStack {
                         Text("보러가기")
                             .font(.XsMedium)
                         Image(systemName: "chevron.right")
@@ -160,27 +159,28 @@ struct ReviewCard:View {
                             .frame(width: 7, height: 12)
                     }
                     .foregroundStyle(.aricticDark)
-                })
+                }
             }
+
             Divider().padding(.bottom, 16)
-            
+
             HStack {
                 StarStaticView(rating: review.rating)
-                
-                Spacer().frame(width:13)
-                
-                Text(review.userNameMasked)
+
+                Spacer().frame(width: 13)
+
+                Text(review.maskedMemberId)
                     .font(.XsMedium)
                     .foregroundStyle(.aricticDarker)
-            
+
                 Spacer()
-                
-                Text(review.date)
+
+                Text(review.createdDate)
                     .font(.XsMedium)
                     .foregroundStyle(.aricticDark)
             }
             .padding(.bottom, 12)
-            
+
             Text(review.content)
                 .font(.SMedium)
                 .foregroundStyle(.aricticDarker)

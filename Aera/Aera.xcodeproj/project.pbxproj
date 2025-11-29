@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A917A75D2ED76744009C96F4 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A917A75C2ED76744009C96F4 /* Moya */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		23650A482EC86369006C4BD5 /* Aera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A917A75D2ED76744009C96F4 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = Aera;
 			packageProductDependencies = (
+				A917A75C2ED76744009C96F4 /* Moya */,
 			);
 			productName = Aera;
 			productReference = 23650A482EC86369006C4BD5 /* Aera.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 23650A3F2EC86369006C4BD5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				A917A75B2ED76744009C96F4 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 23650A492EC86369006C4BD5 /* Products */;
 			projectDirPath = "";
@@ -347,6 +356,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A917A75B2ED76744009C96F4 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A917A75C2ED76744009C96F4 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A917A75B2ED76744009C96F4 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 23650A402EC86369006C4BD5 /* Project object */;
 }
