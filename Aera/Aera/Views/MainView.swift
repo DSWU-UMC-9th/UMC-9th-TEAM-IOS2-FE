@@ -23,31 +23,32 @@ struct MainView: View {
             Color.aricticLight.ignoresSafeArea()
 
             ScrollView(showsIndicators: false) {
-
-                Header()
-                sectionRecommend
-
-                Image("Banner")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 24)
-
-                // ✔ 핵심: 헤더 자체가 ZStack으로 변함 (드롭다운 겹쳐 뜸)
-                perfumeListHeader
-
-                LazyVGrid(columns: columns, spacing: 24) {
-                    ForEach(perfumeVM.perfumes) { perfume in
-                        PerfumeItem(perfume: perfume)
+                VStack(spacing: 0) {
+                    
+                    Header()
+                    sectionRecommend
+                    
+                    Image("Banner")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 327, height: 195)
+                    
+                    perfumeListHeader
+                    
+                    LazyVGrid(columns: columns, spacing: 24) {
+                        ForEach(perfumeVM.perfumes) { perfume in
+                            PerfumeItem(perfume: perfume)
+                        }
                     }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 20)
                 }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 20)
             }
+            .ignoresSafeArea()
         }
         .environmentObject(sortVM)
         .onChange(of: sortVM.selectedSort) { _, _ in
-            perfumeVM.loadMockData(sort: sortVM.sortParameter)
+            perfumeVM.fetchPerfumes(sort: sortVM.sortParameter)
         }
     }
 }
@@ -69,7 +70,7 @@ extension MainView {
         .padding(.bottom, 24)
     }
 
-    // MARK: - ✔ 드롭다운과 겹치는 헤더
+    // MARK: - 드롭다운과 겹치는 헤더
     var perfumeListHeader: some View {
         ZStack(alignment: .topTrailing) {
 
@@ -161,10 +162,12 @@ struct PerfumeItem: View {
     
     var body: some View {
         VStack(spacing: 8) {
-            Image("PerfumeExample")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 152, height: 152)
+            AsyncImage(url: URL(string: "http://localhost:8080\(perfume.imageUrl)")) { img in
+                            img.resizable()
+                        } placeholder: {
+                            Color.gray.opacity(0.2)
+                        }
+                        .frame(width: 152, height: 152)
 
             VStack(spacing: 5) {
                 Text(perfume.name)
