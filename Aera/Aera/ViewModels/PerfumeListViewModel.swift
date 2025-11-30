@@ -7,12 +7,17 @@
 
 import Foundation
 import Combine
+import Moya
 
 class PerfumeListViewModel: ObservableObject {
     @Published var perfumes: [Perfume] = []
     @Published var recommended: [Perfume] = []
     
     private var cancellables = Set<AnyCancellable>()
+    private let provider = MoyaProvider<PerfumeAPI>(
+        plugins: [AuthPlugin(), NetworkLoggerPlugin()]
+    )
+
     
     init() {
         fetchPerfumes(sort: "desc")

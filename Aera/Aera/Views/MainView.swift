@@ -9,42 +9,46 @@ import SwiftUI
 import Combine
 
 struct MainView: View {
-
+    
     @StateObject private var sortVM = PerfumeSortViewModel()
     @StateObject private var perfumeVM = PerfumeListViewModel()
-
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
     
     var body: some View {
-        ZStack {
-            Color.aricticLight.ignoresSafeArea()
-
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 0) {
-                    
-                    Header()
-                    sectionRecommend
-                    
-                    Image("Banner")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 327, height: 195)
-                    
-                    perfumeListHeader
-                    
-                    LazyVGrid(columns: columns, spacing: 24) {
-                        ForEach(perfumeVM.perfumes) { perfume in
-                            PerfumeItem(perfume: perfume)
+        NavigationStack {
+            ZStack {
+                Color.aricticLight.ignoresSafeArea()
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 0) {
+                        
+                        Header()
+                        sectionRecommend
+                        
+                        Image("Banner")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 327, height: 195)
+                        
+                        perfumeListHeader
+                        
+                        LazyVGrid(columns: columns, spacing: 24) {
+                            ForEach(perfumeVM.perfumes) { perfume in
+                                NavigationLink(destination: DetailView(perfumeId: perfume.id)) {
+                                    PerfumeItem(perfume: perfume)
+                                }
+                            }
                         }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 20)
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 20)
                 }
+                .ignoresSafeArea()
             }
-            .ignoresSafeArea()
         }
         .environmentObject(sortVM)
         .onChange(of: sortVM.selectedSort) { _, _ in
