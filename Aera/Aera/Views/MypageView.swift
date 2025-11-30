@@ -12,12 +12,16 @@ struct MypageView: View {
     @State private var isDropdownExpanded = false
     @State private var sortButtonFrame: CGRect = .zero
 
+    @State private var goMyPage = false
+
     
     var body: some View {
         ZStack {
             Color.aricticLight
             VStack{
-                Header()
+                Header {
+                    goMyPage = true
+                }
                 ScrollView {
                     UserNameCard
                         .padding(.vertical, 24)
