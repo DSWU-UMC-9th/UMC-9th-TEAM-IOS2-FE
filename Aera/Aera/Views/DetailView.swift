@@ -7,10 +7,16 @@
 
 import SwiftUI
 
-
 struct DetailView: View {
-    @StateObject private var vm = DetailViewModel()
+    let perfumeId: Int
+    
+    @StateObject private var vm: DetailViewModel
     @FocusState private var isReviewFocused: Bool
+    
+    init(perfumeId: Int) {
+        self.perfumeId = perfumeId
+        _vm = StateObject(wrappedValue: DetailViewModel(perfumeId: perfumeId))
+    }
     
     var body: some View {
         ZStack {
@@ -19,17 +25,21 @@ struct DetailView: View {
             VStack{
                 Header()
                 ScrollView {
-                    MainImage
-                    Spacer().frame(height: 20)
-
-                    Group{
-                        productHeaderSection
+                    if let perfume = vm.perfume {
+                        
+                        MainImage(perfume)
+                        
                         Spacer().frame(height: 20)
-                        Description
-                        Spacer().frame(height: 40)
-                        Reviews
+                        
+                        Group {
+                            productHeaderSection(perfume)
+                            Spacer().frame(height: 20)
+                            Description(perfume)
+                            Spacer().frame(height: 40)
+                            Reviews(perfume)
+                        }
+                        .padding(.horizontal, 24)
                     }
-                    .padding(.horizontal, 24)
                 }
                 if vm.showReviewPopup {
                     ReviewSuccessPopup {
@@ -44,45 +54,49 @@ struct DetailView: View {
         .ignoresSafeArea()
     }
     
-    var MainImage: some View {
-        Image(vm.product.imageURL)
-            .resizable()
-            .scaledToFit()
-            .frame(maxWidth: .infinity)
+    @ViewBuilder
+    func MainImage(_ p: PerfumeDetail) -> some View {
+        AsyncImage(url: URL(string: "http://localhost:8080\(p.imageUrl)")) { img in
+            img.resizable()
+        } placeholder: {
+            Rectangle().fill(Color.gray.opacity(0.2))
+        }
+        .scaledToFit()
+        .frame(maxWidth: .infinity)
     }
     
-    var productHeaderSection : some View {
+    @ViewBuilder
+    func productHeaderSection(_ p: PerfumeDetail) -> some View {
         VStack(alignment: .leading) {
             HStack{
-                Text(vm.product.name)
+                Text(p.name)
                     .font(.XlSemiBold)
                     .foregroundStyle(.midnightDark)
                 Spacer()
                 RatingSummaryView(
-                    rating: vm.product.rating,
-                    reviewCount: vm.product.reviewCount
+                    rating: p.avgScore,
+                    reviewCount: p.reviewCount
                 )
             }
             Spacer().frame(height: 4)
-            Text(vm.product.brand)
+            Text(p.brand)
                 .font(.XsMedium)
                 .foregroundStyle(.aricticDarkHover)
             Spacer().frame(height: 10)
-            Text("\(vm.product.price) (\(vm.product.volume))")
+            Text(p.priceText)
                 .font(.SSemiBold)
                 .foregroundStyle(.midnightDark)
         }
     }
     
-    var Description: some View {
-        Text(vm.product.description)
+    @ViewBuilder
+    func Description(_ p: PerfumeDetail) -> some View {
+        Text(p.description)
             .font(.XsMedium)
             .foregroundStyle(.aricticDarker)
             .lineSpacing(4)
             .multilineTextAlignment(.leading)
-            .lineLimit(nil)
             .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: .leading)
             .padding(10)
             .background(
                 RoundedRectangle(cornerRadius: 4)
@@ -90,21 +104,22 @@ struct DetailView: View {
             )
     }
     
-    var Reviews: some View {
-        VStack(alignment: .leading) {
-            Text("향수 리뷰 (\(vm.product.reviewCount))")
-                .font(.MBold)
-                .foregroundStyle(.midnightDark)
-                .padding(.bottom, 24)
-            
-            if !vm.hasUserReviewed {
-                ReviewInputSection
-                    .padding(.bottom, 48)
-            }
-            ReviewListSection
-        }
-        .padding(.top, 30)
-    }
+    @ViewBuilder
+    func Reviews(_ p: PerfumeDetail) -> some View {
+          VStack(alignment: .leading) {
+              Text("향수 리뷰 (\(p.reviewCount))")
+                  .font(.MBold)
+                  .foregroundStyle(.midnightDark)
+                  .padding(.bottom, 24)
+              
+              if !vm.hasUserReviewed {
+                  ReviewInputSection
+                      .padding(.bottom, 48)
+              }
+              ReviewListSection(p)
+          }
+          .padding(.top, 30)
+      }
     
     var ReviewInputSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -123,12 +138,10 @@ struct DetailView: View {
                     .font(.XsMedium)
                     .padding(16)
                     .frame(height: 108)
-                    .frame(maxWidth: .infinity)
                     .scrollContentBackground(.hidden)
                     .overlay(
                         RoundedRectangle(cornerRadius: 4)
                             .stroke(.aricticLightActive, lineWidth: 1)
-                            .foregroundStyle(.slopesWhite)
                     )
 
                 if !isReviewFocused && vm.reviewText.isEmpty {
@@ -139,41 +152,37 @@ struct DetailView: View {
                 }
             }
             
-            
             Button(action: { vm.submitReview() }) {
                 Text("리뷰 등록하기")
                     .font(.SMedium)
                     .padding(.vertical, 16)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 40)
-                    .background(
-                        vm.canSubmitReview ? Color.midnightDark : Color.gray.opacity(0.3)
-                    )
+                    .background(vm.reviewText.isEmpty ? Color.gray.opacity(0.3) : Color.midnightDark)
                     .foregroundStyle(.aricticLight)
                     .cornerRadius(4)
             }
-            .disabled(!vm.canSubmitReview)
+            .disabled(vm.reviewText.isEmpty)
         }
-    
     }
     
-    var ReviewListSection: some View {
+    @ViewBuilder
+    func ReviewListSection(_ p: PerfumeDetail) -> some View {
         VStack(alignment: .leading, spacing: 20) {
-            ForEach(Array(vm.product.reviews.enumerated()), id: \.element.id) { index, review in
+            ForEach(p.reviews.items) { review in
                 VStack(alignment: .leading, spacing: 12) {
                     
                     HStack {
-                        StarStaticView(rating: review.rating)
+                        StarStaticView(rating: review.score)
                         
-                        Spacer().frame(width:13)
+                        Spacer().frame(width: 13)
                         
-                        Text(review.userNameMasked)
+                        Text(review.maskedWriterName)
                             .font(.XsMedium)
                             .foregroundStyle(.aricticDarker)
                     
                         Spacer()
                         
-                        Text(review.date)
+                        Text(review.formattedDate)
                             .font(.XsMedium)
                             .foregroundStyle(.aricticDark)
                     }
@@ -182,27 +191,6 @@ struct DetailView: View {
                         .font(.SMedium)
                         .foregroundStyle(.aricticDarker)
                         .lineSpacing(5.6)
-                    
-                    if review.userID == vm.currentUser.id {
-                        HStack {
-                            Spacer()
-
-                            Button(action: {
-                                
-                            }) {
-                                Text("수정하기")
-                                    .font(.XxsMedium)
-                                    .frame(width: 55)
-                                    .padding(.vertical, 4)
-                                    .padding(.horizontal, 2)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 4)
-                                            .stroke(.aricticDark, lineWidth: 1)
-                                    )
-                                    .foregroundColor(.aricticDark)
-                            }
-                        }
-                    }
                 }
                 
                 Divider().padding(.vertical, 12)
@@ -210,8 +198,6 @@ struct DetailView: View {
         }
         .padding(.top, 12)
     }
-
-
 }
 
 
@@ -267,5 +253,5 @@ struct ReviewSuccessPopup: View {
 
 
 #Preview {
-    DetailView()
+    DetailView(perfumeId: 2)
 }

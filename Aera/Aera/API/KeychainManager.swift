@@ -88,8 +88,16 @@ final class KeychainManager: @unchecked Sendable {
         }
     }
     
+    public func loadTokenString() -> String? {
+        return loadTokenInfo()?.accessToken
+    }
+    
     public func deleteToken() {
         let deleteStatus = self.deleteTokenInfo()
         print(deleteStatus == errSecSuccess ? "삭제 성공" : "삭제 실패")
+    }
+    
+    public func getAccessToken() -> String? {
+        return self.loadTokenInfo()?.accessToken
     }
 }
