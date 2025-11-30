@@ -13,15 +13,22 @@ class APIManager: @unchecked Sendable {
     static let shared = APIManager()
 
     private let loggerPlugin: PluginType
+    private let authPlugin: PluginType
     
+    
+    
+
     private init() {
         loggerPlugin = NetworkLoggerPlugin(configuration: .init(logOptions: .verbose))
+        authPlugin = AuthPlugin {
+            KeychainManager.shared.getAccessToken()
+        }
     }
     
     /// 실제 API 요청용 MoyaProvider
     public func createProvider<T: TargetType>(for targetType: T.Type) -> MoyaProvider<T> {
         return MoyaProvider<T>(
-            plugins: [loggerPlugin]
+            plugins: [authPlugin, loggerPlugin]
         )
     }
     
@@ -29,7 +36,7 @@ class APIManager: @unchecked Sendable {
     public func testProvider<T: TargetType>(for targetType: T.Type) -> MoyaProvider<T> {
         return MoyaProvider<T>(
             stubClosure: MoyaProvider.immediatelyStub,
-            plugins: [loggerPlugin]
+            plugins: [authPlugin, loggerPlugin]
         )
     }
 }

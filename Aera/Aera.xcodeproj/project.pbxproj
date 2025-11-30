@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		44EE56272ED8A9B700267DF8 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 44EE56262ED8A9B700267DF8 /* Moya */; };
+		A93215ED2EDC807F008DA064 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A93215EC2EDC807F008DA064 /* Moya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44EE56272ED8A9B700267DF8 /* Moya in Frameworks */,
+				A93215ED2EDC807F008DA064 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			);
 			name = Aera;
 			packageProductDependencies = (
-				44EE56262ED8A9B700267DF8 /* Moya */,
+				A93215EC2EDC807F008DA064 /* Moya */,
 			);
 			productName = Aera;
 			productReference = 23650A482EC86369006C4BD5 /* Aera.app */;
@@ -114,7 +114,7 @@
 			mainGroup = 23650A3F2EC86369006C4BD5;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				44EE56252ED8A9B700267DF8 /* XCRemoteSwiftPackageReference "Moya" */,
+				A93215EB2EDC807F008DA064 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 23650A492EC86369006C4BD5 /* Products */;
@@ -360,9 +360,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		44EE56252ED8A9B700267DF8 /* XCRemoteSwiftPackageReference "Moya" */ = {
+		A93215EB2EDC807F008DA064 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Moya/Moya";
+			repositoryURL = "https://github.com/Moya/Moya.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 15.0.3;
@@ -371,9 +371,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		44EE56262ED8A9B700267DF8 /* Moya */ = {
+		A93215EC2EDC807F008DA064 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 44EE56252ED8A9B700267DF8 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = A93215EB2EDC807F008DA064 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
 		};
 /* End XCSwiftPackageProductDependency section */
