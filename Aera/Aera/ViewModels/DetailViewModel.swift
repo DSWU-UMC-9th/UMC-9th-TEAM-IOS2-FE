@@ -29,7 +29,12 @@ class DetailViewModel: ObservableObject {
     @Published var currentUser = User(maskedName: "user***")
 
     let perfumeId: Int
-    let provider = MoyaProvider<PerfumeAPI>(plugins: [AuthPlugin(), NetworkLoggerPlugin()])
+    let provider = MoyaProvider<APIService>(
+        plugins: [
+            AuthPlugin(tokenClosure: { KeychainManager.shared.getAccessToken() }),
+            NetworkLoggerPlugin()
+        ]
+    )
 
     init(perfumeId: Int) {
         self.perfumeId = perfumeId

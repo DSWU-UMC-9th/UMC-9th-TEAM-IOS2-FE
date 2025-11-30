@@ -14,9 +14,13 @@ class PerfumeListViewModel: ObservableObject {
     @Published var recommended: [Perfume] = []
     
     private var cancellables = Set<AnyCancellable>()
-    private let provider = MoyaProvider<PerfumeAPI>(
-        plugins: [AuthPlugin(), NetworkLoggerPlugin()]
+    let provider = MoyaProvider<APIService>(
+        plugins: [
+            AuthPlugin(tokenClosure: { KeychainManager.shared.getAccessToken() }),
+            NetworkLoggerPlugin()
+        ]
     )
+
 
     
     init() {

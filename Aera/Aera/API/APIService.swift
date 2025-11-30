@@ -1,46 +1,52 @@
 //
-//  PerfumeAPI.swift
+//  APIService.swift
 //  Aera
 //
-//  Created by Jung Hyun Han on 11/30/25.
+//  Created by 권예원 on 11/27/25.
 //
 
 import Foundation
 import Moya
 import Alamofire
 
-enum PerfumeAPI {
+enum APIService {
+    case getMyInfo
+    case getMyReviews(sort: String)
+    case checkReviewExists(reviewId: Int)
     case getPerfumeDetail(id: Int, page: Int, size: Int)
     case postReview(id: Int, score: Int, content: String)
 }
 
-extension PerfumeAPI: TargetType {
-
-    var baseURL: URL {
-        return URL(string: "http://localhost:8080")!
-    }
+extension APIService: APITargetType {
 
     var path: String {
         switch self {
+        case .getMyInfo:
+            return "/api/mypage/me"
+        case .getMyReviews:
+            return "/api/mypage/perfume-reviews"
+        case .checkReviewExists(let reviewId):
+            return "/api/mypage/perfume-reviews/\(reviewId)/exists"
         case .getPerfumeDetail(let id, _, _):
             return "/perfumes/\(id)"
         case .postReview(let id, _, _):
             return "/perfumes/\(id)/reviews"
+
         }
     }
 
-    var method: Moya.Method {
-        switch self {
-        case .getPerfumeDetail:
-            return .get
-        case .postReview:
-            return .post
-        }
-    }
+    var method: Moya.Method { .get }
 
-    var task: Moya.Task {
+    var task: Task {
         switch self {
+        case .getMyInfo, .checkReviewExists:
+            return .requestPlain
 
+        case .getMyReviews(let sort):
+            return .requestParameters(
+                parameters: ["sort": sort],
+                encoding: URLEncoding.queryString
+            )
         case .getPerfumeDetail(_, let page, let size):
             return .requestParameters(
                 parameters: ["page": page, "size": size],
@@ -54,9 +60,5 @@ extension PerfumeAPI: TargetType {
             ]
             return .requestParameters(parameters: body, encoding: JSONEncoding.default)
         }
-    }
-
-    var headers: [String : String]? {
-        return ["Content-Type": "application/json"]
     }
 }
