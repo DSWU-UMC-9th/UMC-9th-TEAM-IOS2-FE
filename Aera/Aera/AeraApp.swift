@@ -11,7 +11,7 @@ import SwiftUI
 struct AeraApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashView()
+            SignupView()
         }
     }
 }

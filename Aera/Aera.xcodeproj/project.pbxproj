@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A917A75D2ED76744009C96F4 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = A917A75C2ED76744009C96F4 /* Moya */; };
+		44EE56272ED8A9B700267DF8 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 44EE56262ED8A9B700267DF8 /* Moya */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A917A75D2ED76744009C96F4 /* Moya in Frameworks */,
+				44EE56272ED8A9B700267DF8 /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +83,7 @@
 			);
 			name = Aera;
 			packageProductDependencies = (
-				A917A75C2ED76744009C96F4 /* Moya */,
+				44EE56262ED8A9B700267DF8 /* Moya */,
 			);
 			productName = Aera;
 			productReference = 23650A482EC86369006C4BD5 /* Aera.app */;
@@ -97,7 +97,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2600;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					23650A472EC86369006C4BD5 = {
 						CreatedOnToolsVersion = 26.0.1;
@@ -114,7 +114,7 @@
 			mainGroup = 23650A3F2EC86369006C4BD5;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				A917A75B2ED76744009C96F4 /* XCRemoteSwiftPackageReference "Moya" */,
+				44EE56252ED8A9B700267DF8 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 23650A492EC86369006C4BD5 /* Products */;
@@ -206,6 +206,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -263,6 +264,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -358,9 +360,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A917A75B2ED76744009C96F4 /* XCRemoteSwiftPackageReference "Moya" */ = {
+		44EE56252ED8A9B700267DF8 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Moya/Moya.git";
+			repositoryURL = "https://github.com/Moya/Moya";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 15.0.3;
@@ -369,9 +371,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A917A75C2ED76744009C96F4 /* Moya */ = {
+		44EE56262ED8A9B700267DF8 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A917A75B2ED76744009C96F4 /* XCRemoteSwiftPackageReference "Moya" */;
+			package = 44EE56252ED8A9B700267DF8 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
 		};
 /* End XCSwiftPackageProductDependency section */
