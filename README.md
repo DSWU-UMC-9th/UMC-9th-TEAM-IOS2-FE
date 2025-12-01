@@ -43,7 +43,7 @@
 </br>
 
 # 💻 시연 영상
-<a href="https://youtu.be/FrTnY7UL8wQ" target="_blank">
+<a href="https://youtube.com/shorts/MbZsL909SsM?si=ZCKOkpqUv2f7qZs8" target="_blank">
   <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" width="26" style="vertical-align: middle;"/>
   시연 영상
 </a>
