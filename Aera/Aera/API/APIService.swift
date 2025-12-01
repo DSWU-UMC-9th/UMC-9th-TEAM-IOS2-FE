@@ -35,7 +35,14 @@ extension APIService: APITargetType {
         }
     }
 
-    var method: Moya.Method { .get }
+    var method: Moya.Method {
+        switch self {
+            case .getMyInfo, .getMyReviews, .checkReviewExists, .getPerfumeDetail:
+                return .get
+            case .postReview:
+                return .post
+        }
+    }
 
     var task: Task {
         switch self {

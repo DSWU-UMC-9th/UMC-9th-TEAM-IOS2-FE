@@ -46,15 +46,15 @@ struct DetailView: View {
                             .padding(.horizontal, 24)
                         }
                     }
-                    if vm.showReviewPopup {
-                        ReviewSuccessPopup {
-                            vm.showReviewPopup = false
-                        }
-                        .transition(.scale.combined(with: .opacity))
-                        .animation(.easeInOut, value: vm.showReviewPopup)
-                    }
-                }
 
+                }
+                if vm.showReviewPopup {
+                    ReviewSuccessPopup {
+                        vm.showReviewPopup = false
+                    }
+                    .transition(.scale.combined(with: .opacity))
+                    .animation(.easeInOut, value: vm.showReviewPopup)
+                }
             }
             .ignoresSafeArea()
             .navigationDestination(isPresented: $goMyPage) {
