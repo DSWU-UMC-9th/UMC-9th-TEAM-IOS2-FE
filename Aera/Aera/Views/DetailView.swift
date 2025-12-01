@@ -10,6 +10,8 @@ import SwiftUI
 struct DetailView: View {
     let perfumeId: Int
     
+    @State private var goMyPage = false
+    
     @StateObject private var vm: DetailViewModel
     @FocusState private var isReviewFocused: Bool
     
@@ -19,27 +21,32 @@ struct DetailView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.aricticLight
-            
-            VStack{
-                Header()
-                ScrollView {
-                    if let perfume = vm.perfume {
-                        
-                        MainImage(perfume)
-                        
-                        Spacer().frame(height: 20)
-                        
-                        Group {
-                            productHeaderSection(perfume)
-                            Spacer().frame(height: 20)
-                            Description(perfume)
-                            Spacer().frame(height: 40)
-                            Reviews(perfume)
-                        }
-                        .padding(.horizontal, 24)
+        NavigationStack{
+            ZStack {
+                Color.aricticLight
+                
+                VStack{
+                    Header {
+                        goMyPage = true
                     }
+                    ScrollView {
+                        if let perfume = vm.perfume {
+                            
+                            MainImage(perfume)
+                            
+                            Spacer().frame(height: 20)
+                            
+                            Group {
+                                productHeaderSection(perfume)
+                                Spacer().frame(height: 20)
+                                Description(perfume)
+                                Spacer().frame(height: 40)
+                                Reviews(perfume)
+                            }
+                            .padding(.horizontal, 24)
+                        }
+                    }
+
                 }
                 if vm.showReviewPopup {
                     ReviewSuccessPopup {
@@ -49,9 +56,12 @@ struct DetailView: View {
                     .animation(.easeInOut, value: vm.showReviewPopup)
                 }
             }
-
+            .ignoresSafeArea()
+            .navigationDestination(isPresented: $goMyPage) {
+                MypageView()
+                    .navigationBarBackButtonHidden()
+            }
         }
-        .ignoresSafeArea()
     }
     
     @ViewBuilder

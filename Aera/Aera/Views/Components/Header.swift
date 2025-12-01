@@ -8,21 +8,30 @@
 import SwiftUI
 
 struct Header: View {
+    var onTapMyPage: () -> Void
+    
     var body: some View {
-        // TODO: 네비게이션 버튼으로 연결
         HStack {
             Image(.logoHeader)
 
             Spacer()
 
-            Image(.imgUser)
+            myPageButton
         }
         .padding(.top, 44)
         .padding(.horizontal, 24)
         .padding(.vertical, 13)
     }
+    
+    var myPageButton: some View {
+        Button(action: { onTapMyPage() }) {
+            Image(.imgUser)
+        }
+    }
 }
 
 #Preview {
-    Header()
+    Header(){
+        print("goToMypage")
+    }
 }

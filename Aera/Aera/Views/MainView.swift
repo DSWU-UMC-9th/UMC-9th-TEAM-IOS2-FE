@@ -13,6 +13,8 @@ struct MainView: View {
     @StateObject private var sortVM = PerfumeSortViewModel()
     @StateObject private var perfumeVM = PerfumeListViewModel()
     
+    @State private var goMyPage = false
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -26,7 +28,9 @@ struct MainView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
                         
-                        Header()
+                        Header {
+                            goMyPage = true
+                        }
                         sectionRecommend
                         
                         Image("Banner")
@@ -48,6 +52,10 @@ struct MainView: View {
                     }
                 }
                 .ignoresSafeArea()
+            }
+            .navigationDestination(isPresented: $goMyPage) {
+                MypageView()
+                    .navigationBarBackButtonHidden()
             }
         }
         .environmentObject(sortVM)
