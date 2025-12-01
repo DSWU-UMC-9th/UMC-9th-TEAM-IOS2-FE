@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MypageView: View {
     @StateObject private var vm = MyPageViewModel()
+    @StateObject var perfumeListVM = PerfumeListViewModel()
+
     @State private var isDropdownExpanded = false
     @State private var sortButtonFrame: CGRect = .zero
     
@@ -16,6 +18,7 @@ struct MypageView: View {
 
     @State private var goMain = false
     @State private var goMyPage = false
+    @State private var goDetail = false
 
     
     var body: some View {
@@ -32,6 +35,7 @@ struct MypageView: View {
                             .padding(.vertical, 24)
                         SortSection
                             .padding(.bottom, 24)
+
                         reviewListSection
                     }
                     .padding(.horizontal,24)
@@ -57,7 +61,12 @@ struct MypageView: View {
                 MypageView()
                     .navigationBarBackButtonHidden()
             }
+            .navigationDestination(isPresented: $goDetail) {
+                DetailView(perfumeId: selectedPerfumeId ?? 0)
+                    .navigationBarBackButtonHidden()
+            }
         }
+        .environmentObject(perfumeListVM)
     }
     
     var UserNameCard: some View {
@@ -125,7 +134,11 @@ struct MypageView: View {
     var reviewListSection: some View {
         VStack(spacing: 16) {
             ForEach(vm.myReviews, id: \.reviewId) { review in
-                ReviewCard(review: review)
+                ReviewCard(
+                    review: review,
+                    selectedPerfumeId: $selectedPerfumeId,
+                    goToDetail: $goDetail
+                )
             }
         }
     }
@@ -156,6 +169,10 @@ struct MypageView: View {
 
 struct ReviewCard: View {
     let review: MyPageReview
+    
+    @EnvironmentObject var perfumeListVM: PerfumeListViewModel
+    @Binding var selectedPerfumeId: Int?
+    @Binding var goToDetail: Bool
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -167,7 +184,13 @@ struct ReviewCard: View {
                 Spacer()
 
                 Button {
-                    // 향수 상세 페이지로 이동
+                    if let matched = perfumeListVM.perfumes.first(where: { $0.name == review.perfumeName }) {
+                            selectedPerfumeId = matched.id
+                            goToDetail = true
+                        } else {
+                            print("향수 이름 매칭 실패: \(review.perfumeName)")
+                        }
+                    
                 } label: {
                     HStack {
                         Text("보러가기")
