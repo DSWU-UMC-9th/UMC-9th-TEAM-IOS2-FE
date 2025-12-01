@@ -10,6 +10,7 @@ import SwiftUI
 struct DetailView: View {
     let perfumeId: Int
     
+    @State private var goMain = false
     @State private var goMyPage = false
     
     @StateObject private var vm: DetailViewModel
@@ -26,9 +27,10 @@ struct DetailView: View {
                 Color.aricticLight
                 
                 VStack{
-                    Header {
-                        goMyPage = true
-                    }
+                    Header(
+                        onTapMyPage: { goMyPage = true },
+                        onTapLogo: { goMain = true }
+                    )
                     ScrollView {
                         if let perfume = vm.perfume {
                             
@@ -57,6 +59,10 @@ struct DetailView: View {
                 }
             }
             .ignoresSafeArea()
+            .navigationDestination(isPresented: $goMain) {
+                MainView()
+                    .navigationBarBackButtonHidden()
+            }
             .navigationDestination(isPresented: $goMyPage) {
                 MypageView()
                     .navigationBarBackButtonHidden()

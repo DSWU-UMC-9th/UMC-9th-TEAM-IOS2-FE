@@ -9,10 +9,13 @@ import SwiftUI
 
 struct Header: View {
     var onTapMyPage: () -> Void
-    
+    var onTapLogo: () -> Void = {}
+
     var body: some View {
         HStack {
-            Image(.logoHeader)
+            Button(action: { onTapLogo() }) {
+                Image(.logoHeader)
+            }
 
             Spacer()
 
@@ -31,7 +34,8 @@ struct Header: View {
 }
 
 #Preview {
-    Header(){
-        print("goToMypage")
-    }
+    Header(
+        onTapMyPage: { print("goToMypage") },
+        onTapLogo: { print("goToMain") }
+    )
 }

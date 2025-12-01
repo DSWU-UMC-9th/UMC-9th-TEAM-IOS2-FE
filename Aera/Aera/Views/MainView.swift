@@ -13,6 +13,7 @@ struct MainView: View {
     @StateObject private var sortVM = PerfumeSortViewModel()
     @StateObject private var perfumeVM = PerfumeListViewModel()
     
+    @State private var goMain = false
     @State private var goMyPage = false
     
     let columns = [
@@ -28,9 +29,10 @@ struct MainView: View {
                 ScrollView(showsIndicators: false) {
                     VStack(spacing: 0) {
                         
-                        Header {
-                            goMyPage = true
-                        }
+                        Header(
+                            onTapMyPage: { goMyPage = true },
+                            onTapLogo: { goMain = true }
+                        )
                         sectionRecommend
                         
                         Image("Banner")
@@ -52,6 +54,10 @@ struct MainView: View {
                     }
                 }
                 .ignoresSafeArea()
+            }
+            .navigationDestination(isPresented: $goMain) {
+                MainView()
+                    .navigationBarBackButtonHidden()
             }
             .navigationDestination(isPresented: $goMyPage) {
                 MypageView()

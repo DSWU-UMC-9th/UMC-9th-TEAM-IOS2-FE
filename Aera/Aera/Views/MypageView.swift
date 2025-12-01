@@ -11,39 +11,53 @@ struct MypageView: View {
     @StateObject private var vm = MyPageViewModel()
     @State private var isDropdownExpanded = false
     @State private var sortButtonFrame: CGRect = .zero
+    
+    @State private var selectedPerfumeId: Int? = nil
 
+    @State private var goMain = false
     @State private var goMyPage = false
 
     
     var body: some View {
-        ZStack {
-            Color.aricticLight
-            VStack{
-                Header {
-                    goMyPage = true
-                }
-                ScrollView {
-                    UserNameCard
-                        .padding(.vertical, 24)
-                    SortSection
-                        .padding(.bottom, 24)
-                    reviewListSection
-                }
-                .padding(.horizontal,24)
-            }
-            
-        }
-        .overlay(alignment: .topLeading) {
-            if isDropdownExpanded {
-                sortDropDown
-                    .position(
-                        x: sortButtonFrame.maxX - 35,
-                        y: sortButtonFrame.maxY + 32
+        NavigationStack {
+            ZStack {
+                Color.aricticLight
+                VStack{
+                    Header(
+                        onTapMyPage: { goMyPage = true },
+                        onTapLogo: { goMain = true }
                     )
-                    .zIndex(999)
+                    ScrollView {
+                        UserNameCard
+                            .padding(.vertical, 24)
+                        SortSection
+                            .padding(.bottom, 24)
+                        reviewListSection
+                    }
+                    .padding(.horizontal,24)
+                }
+                
+            }
+            .overlay(alignment: .topLeading) {
+                if isDropdownExpanded {
+                    sortDropDown
+                        .position(
+                            x: sortButtonFrame.maxX - 35,
+                            y: sortButtonFrame.maxY + 32
+                        )
+                        .zIndex(999)
+                }
+            }
+            .ignoresSafeArea()
+            .navigationDestination(isPresented: $goMain) {
+                MainView()
+                    .navigationBarBackButtonHidden()
+            }
+            .navigationDestination(isPresented: $goMyPage) {
+                MypageView()
+                    .navigationBarBackButtonHidden()
             }
         }
-        .ignoresSafeArea()
     }
     
     var UserNameCard: some View {
